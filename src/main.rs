@@ -10,18 +10,17 @@ struct Cli {
 fn main() -> Result<()> {
     let args = Cli::parse();
 
-    let result = std::fs::read_to_string(&args.path)
-        .with_context(|| format!("could not read file `{}`", args.path.display()));
+    let content = std::fs::read_to_string(&args.path)
+        .with_context(|| format!("could not read file `{}`", args.path.display()))?;
 
-    let content = match result {
-        Ok(content) => content,
-        Err(error) => return Err(error.into()),
-    };
+    print_matches(&content, &args.pattern, &mut std::io::stdout());
+    Ok(())
+}
 
+fn print_matches(content: &str, pattern: &str, mut writer: impl std::io::Write) {
     for line in content.lines() {
-        if line.contains(&args.pattern) {
-            println!("{}", line);
+        if line.contains(pattern) {
+            writeln!(writer, "{}", line);
         }
     }
-    Ok(())
 }
