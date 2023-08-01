@@ -16,6 +16,4 @@ fn main() {
             println!("{}", line);
         }
     }
-
-    println!("Hello, world!");
 }
