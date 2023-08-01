@@ -20,7 +20,10 @@ fn main() -> Result<()> {
 fn print_matches(content: &str, pattern: &str, mut writer: impl std::io::Write) {
     for line in content.lines() {
         if line.contains(pattern) {
-            writeln!(writer, "{}", line);
+            #[allow(unused_must_use)]
+            {
+                writeln!(writer, "{}", line);
+            }
         }
     }
 }
